@@ -1,40 +1,79 @@
-# 🎁 Maman Magique – Livre souvenir IA pour la fête des mères
+# 🌸 Maman Magique – Livre souvenir personnalisé avec IA  
+# 🌸 Maman Magique – AI-Powered Personalized Memory Book
 
-**Maman Magique** est une application web émouvante et magique qui génère automatiquement un **livre souvenir personnalisé** à offrir à sa maman pour la fête des mères ✨💌
+## 💖 Description
 
-## 💡 Fonctionnalités
+**FR :**  
+**Maman Magique** est une application web mobile qui permet de créer un **livre souvenir émouvant et personnalisé** à offrir pour la fête des mères – en quelques minutes, grâce à l’intelligence artificielle ✨
 
-🔹 **Lettre d’amour générée par IA**  
-L’utilisateur répond à quelques questions simples, et une lettre émotive est générée automatiquement, comme si elle venait du cœur 💖
-
-🔹 **Mini-album photo IA**  
-5 à 10 photos sont mises en page avec un style artistique doux (aquarelle, fleurs, pastel), et des **légendes générées automatiquement** par IA 📸
-
-🔹 **Couverture artistique IA**  
-Une couverture sur mesure avec le prénom de la maman et un visuel style peinture ou aquarelle 🎨
-
-🔹 **Audio personnalisé**  
-Lettres lues par synthèse vocale réaliste (voix enfant ou adulte) avec une vraie émotion 🗣️🎧
-
-🔹 **Export PDF**  
-Le tout est exporté en un magnifique **PDF haute qualité**, prêt à être téléchargé, imprimé, ou envoyé en cadeau 💌
+**EN:**  
+**Maman Magique** is a mobile web app that lets you create a **touching, personalized memory book** for Mother's Day – in just a few minutes, powered by artificial intelligence ✨
 
 ---
 
-## 🌐 Déploiement sur Render
+## ✨ Fonctionnalités / Features
 
-Ce projet est prêt à être déployé avec [Render.com](https://render.com) :
+- 💌 **FR : Lettre d’amour générée par IA**  
+  Réponds à quelques questions, et l’IA rédige une lettre unique et émotive.  
+  **EN: AI-generated love letter**  
+  Answer a few questions and get a heartfelt, one-of-a-kind letter from the AI.
 
-- Détection automatique avec `render.yaml`
-- Application Streamlit responsive et mobile-friendly
-- Aucun setup complexe requis
+- 🖼️ **FR : Mini-album photo avec légendes IA**  
+  Upload 5 à 10 photos, l’IA les met en page avec un style doux (aquarelle, fleurs…) et ajoute des légendes automatiques.  
+  **EN: Mini photo album with AI captions**  
+  Upload 5–10 photos, and the AI will arrange them in a beautiful artistic layout with auto-generated captions.
+
+- 🎨 **FR : Couverture artistique IA**  
+  Une couverture illustrée avec le prénom de la maman, dans un style (peinture, aquarelle, collage…).  
+  **EN: Artistic AI-generated cover**  
+  A custom illustrated cover with the mom's name, in a soft painted or watercolor style.
+
+- 🔊 **FR : Option audio (voix IA)**  
+  L’IA lit la lettre avec une voix réaliste (enfant, adulte).  
+  **EN: Audio option (AI voice)**  
+  The AI reads the letter aloud with a natural child or adult voice.
+
+- 📄 **FR : Export PDF HD**  
+  Livre final exporté en PDF haute qualité, prêt à imprimer ou envoyer.  
+  **EN: Export high-res PDF**  
+  Get a final HD PDF ready for printing or digital delivery.
 
 ---
 
-## 📦 Installation locale (développeurs)
+## 🛍️ Format Etsy / Etsy Format
+
+**FR :**  
+- Livraison numérique immédiate  
+- Impression à la demande via Printful  
+- Cadeau émouvant, original et rapide à créer
+
+**EN:**  
+- Instant digital delivery  
+- Print-on-demand option via Printful  
+- Heartfelt, original gift ready in minutes
+
+---
+
+## 🧒 Bonus
+
+**FR :** Mode enfant, thèmes personnalisés (mamie, maman solo, adoptive, etc.)  
+**EN:** Child-friendly version, customizable themes (grandma, single mom, adoptive mom, etc.)
+
+---
+
+## 🧠 Technologies IA / AI Technologies
+
+- GPT (texte personnalisé / personalized letter)
+- PIL, ReportLab (mise en page / layout)
+- ElevenLabs / pyttsx3 (voix / voice)
+- Stable Diffusion, AnimateDiff (images générées / stylized images)
+
+---
+
+## 🚀 Déploiement local / Local Deployment
 
 ```bash
-git clone https://github.com/ton-pseudo/maman-magique-app.git
+git clone https://github.com/separau/maman-magique-app.git
 cd maman-magique-app
 pip install -r requirements.txt
 streamlit run app.py
