@@ -1,79 +1,58 @@
-# 🌸 Maman Magique – Livre souvenir personnalisé avec IA  
-# 🌸 Maman Magique – AI-Powered Personalized Memory Book
+# 💖 Maman Magique — AI-powered Mother's Day Gift App
 
-## 💖 Description
+✨ _Version française ci-dessous_
 
-**FR :**  
-**Maman Magique** est une application web mobile qui permet de créer un **livre souvenir émouvant et personnalisé** à offrir pour la fête des mères – en quelques minutes, grâce à l’intelligence artificielle ✨
+## 🇬🇧 Maman Magique — Create a Magical AI-Powered Gift for Mom
 
-**EN:**  
-**Maman Magique** is a mobile web app that lets you create a **touching, personalized memory book** for Mother's Day – in just a few minutes, powered by artificial intelligence ✨
+**Maman Magique** is an AI-powered web app that helps you create a unique digital memory book for your mom — perfect for Mother's Day or any occasion.
 
----
+### 🎁 Features
+- ✨ **AI Letter Generator** — Write a touching message with just a few questions
+- 📸 **AI Photo Album** — Upload 5–10 photos, get a styled album with captions
+- 🎨 **AI Cover Designer** — Artistic cover with flowers, watercolor, etc.
+- 🔊 **AI Voice Option** — Read the letter in a warm child or adult voice
+- 🧒 **Kid-Friendly Mode** — A simplified version for children
+- 💬 **Multilingual** — Automatically adapts to French or English
 
-## ✨ Fonctionnalités / Features
+### 📦 Output Formats
+- 📄 Downloadable high-quality PDF
+- 📽️ Optional animated video version (coming soon)
 
-- 💌 **FR : Lettre d’amour générée par IA**  
-  Réponds à quelques questions, et l’IA rédige une lettre unique et émotive.  
-  **EN: AI-generated love letter**  
-  Answer a few questions and get a heartfelt, one-of-a-kind letter from the AI.
-
-- 🖼️ **FR : Mini-album photo avec légendes IA**  
-  Upload 5 à 10 photos, l’IA les met en page avec un style doux (aquarelle, fleurs…) et ajoute des légendes automatiques.  
-  **EN: Mini photo album with AI captions**  
-  Upload 5–10 photos, and the AI will arrange them in a beautiful artistic layout with auto-generated captions.
-
-- 🎨 **FR : Couverture artistique IA**  
-  Une couverture illustrée avec le prénom de la maman, dans un style (peinture, aquarelle, collage…).  
-  **EN: Artistic AI-generated cover**  
-  A custom illustrated cover with the mom's name, in a soft painted or watercolor style.
-
-- 🔊 **FR : Option audio (voix IA)**  
-  L’IA lit la lettre avec une voix réaliste (enfant, adulte).  
-  **EN: Audio option (AI voice)**  
-  The AI reads the letter aloud with a natural child or adult voice.
-
-- 📄 **FR : Export PDF HD**  
-  Livre final exporté en PDF haute qualité, prêt à imprimer ou envoyer.  
-  **EN: Export high-res PDF**  
-  Get a final HD PDF ready for printing or digital delivery.
+### 🛍️ How it works on Etsy
+- ✅ Digital delivery via Etsy
+- 🖨️ Optional physical print (via Printful or other service)
 
 ---
 
-## 🛍️ Format Etsy / Etsy Format
+## 🇫🇷 Maman Magique — Crée un Cadeau Magique avec l’IA pour ta Maman
 
-**FR :**  
-- Livraison numérique immédiate  
-- Impression à la demande via Printful  
-- Cadeau émouvant, original et rapide à créer
+**Maman Magique** est une application web alimentée par l’IA qui permet de créer un livre-souvenir personnalisé, idéal pour la fête des mères (ou toute autre occasion spéciale).
 
-**EN:**  
-- Instant digital delivery  
-- Print-on-demand option via Printful  
-- Heartfelt, original gift ready in minutes
+### 🎁 Fonctionnalités
+- ✨ **Lettre IA personnalisée** — L’IA écrit une lettre émotive à partir de quelques questions
+- 📸 **Mini-album photo IA** — Téléverse 5–10 photos, l’IA les met en page joliment avec des légendes
+- 🎨 **Couverture artistique IA** — Style aquarelle, collage, avec prénom de la maman
+- 🔊 **Voix IA** — Lecture audio réaliste (voix d’enfant ou adulte)
+- 🧒 **Version enfant** — Interface simplifiée pour les plus petits
+- 💬 **Bilingue** — L’application s’adapte à la langue du navigateur (français ou anglais)
 
----
+### 📦 Formats disponibles
+- 📄 PDF haute qualité à télécharger
+- 📽️ Option vidéo animée (à venir)
 
-## 🧒 Bonus
-
-**FR :** Mode enfant, thèmes personnalisés (mamie, maman solo, adoptive, etc.)  
-**EN:** Child-friendly version, customizable themes (grandma, single mom, adoptive mom, etc.)
-
----
-
-## 🧠 Technologies IA / AI Technologies
-
-- GPT (texte personnalisé / personalized letter)
-- PIL, ReportLab (mise en page / layout)
-- ElevenLabs / pyttsx3 (voix / voice)
-- Stable Diffusion, AnimateDiff (images générées / stylized images)
+### 🛍️ Fonctionnement sur Etsy
+- ✅ Livraison numérique simple
+- 🖨️ Option impression physique via Printful ou autre
 
 ---
 
-## 🚀 Déploiement local / Local Deployment
+## 🚀 Deployment
+
+This app is hosted on [Render](https://render.com), auto-detects the browser language, and runs on Streamlit with support for AI features (text, image, audio).
+
+To run locally:
 
 ```bash
-git clone https://github.com/separau/maman-magique-app.git
-cd maman-magique-app
 pip install -r requirements.txt
 streamlit run app.py
+
