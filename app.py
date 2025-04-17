@@ -1,28 +1,60 @@
 import streamlit as st
+from utils.i18n import get_texts
 from utils.letter_generator import generate_letter
-from utils.image_creator import generate_cover_image
+from utils.image_album import generate_album
+from utils.pdf_export import export_pdf
 from utils.audio_generator import generate_audio
-from utils.pdf_exporter import export_pdf
 
-st.set_page_config(page_title="Maman Magique", layout="centered")
+# Détection de la langue du navigateur
+lang = st.query_params.get("lang") or st.session_state.get("lang", "fr")
+st.session_state["lang"] = lang
+texts = get_texts(lang)
 
-st.title("💖 Maman Magique")
-st.write("Create a magical AI-powered gift for your mom.")
+st.set_page_config(page_title=texts["app_title"], layout="centered")
 
-name = st.text_input("What’s your mom’s name?")
-memory = st.text_area("Share a special memory with your mom")
-traits = st.text_area("Describe her in a few words")
+st.title(texts["app_title"])
+st.write(texts["app_subtitle"])
 
-uploaded_photos = st.file_uploader("Upload 5-10 photos", type=["jpg", "png"], accept_multiple_files=True)
-voice_type = st.selectbox("Choose a voice type", ["Child", "Adult"])
+menu = st.radio(
+    texts["menu_title"],
+    [texts["step_letter"], texts["step_photos"], texts["step_result"]],
+    key="menu",
+)
 
-if st.button("Generate Gift"):
-    with st.spinner("Creating your magical gift..."):
-        letter = generate_letter(name, memory, traits)
-        cover = generate_cover_image(name)
-        audio = generate_audio(letter, voice_type)
-        pdf_path = export_pdf(name, letter, uploaded_photos, cover)
-        st.success("Done!")
-        st.audio(audio)
-        with open(pdf_path, "rb") as f:
-            st.download_button("📥 Download the PDF", data=f, file_name="maman_magique_gift.pdf")
+if menu == texts["step_letter"]:
+    with st.form("letter_form"):
+        name = st.text_input(texts["form_name"])
+        traits = st.text_area(texts["form_traits"])
+        memory = st.text_area(texts["form_memory"])
+        submit = st.form_submit_button(texts["generate_letter"])
+        if submit:
+            letter = generate_letter(name, traits, memory, lang)
+            st.session_state["letter"] = letter
+            st.success(texts["letter_ready"])
+            st.text_area(texts["letter_preview"], value=letter, height=300)
+
+elif menu == texts["step_photos"]:
+    photos = st.file_uploader(
+        texts["upload_photos"],
+        accept_multiple_files=True,
+        type=["jpg", "jpeg", "png"],
+    )
+    if photos:
+        album = generate_album(photos, lang)
+        st.session_state["album"] = album
+        st.success(texts["album_ready"])
+        for img in album:
+            st.image(img, use_column_width=True)
+
+elif menu == texts["step_result"]:
+    if "letter" in st.session_state and "album" in st.session_state:
+        st.subheader(texts["final_export"])
+        if st.button(texts["export_pdf"]):
+            pdf_file = export_pdf(st.session_state["letter"], st.session_state["album"], lang)
+            st.download_button(texts["download_pdf"], pdf_file, file_name="maman-magique.pdf")
+
+        if st.button(texts["generate_audio"]):
+            audio = generate_audio(st.session_state["letter"], lang)
+            st.audio(audio, format="audio/mp3")
+    else:
+        st.warning(texts["need_previous_steps"])
