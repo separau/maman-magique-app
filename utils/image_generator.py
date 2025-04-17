@@ -1,48 +1,26 @@
-from PIL import Image, ImageDraw, ImageFont
+import replicate
 import os
+import uuid
 
-def generate_cover_image(name="Mom", style="watercolor", output_path="output/cover.jpg"):
+# Assure-toi d’avoir défini REPLICATE_API_TOKEN dans tes variables d’environnement
+replicate_client = replicate.Client(api_token=os.getenv("REPLICATE_API_TOKEN"))
+
+def generate_image(prompt: str) -> str:
     """
-    Generates a simple artistic-style cover image for the souvenir book.
-
-    :param name: Name to display on the cover.
-    :param style: Style of the cover (placeholder for now).
-    :param output_path: Output path for the image.
-    :return: Path to the saved cover image.
+    Generates an image from a text prompt using Stable Diffusion.
+    Returns the local image path.
     """
-    width, height = 800, 1200
-    img = Image.new('RGB', (width, height), color=(255, 230, 240))
+    output_dir = "output"
+    os.makedirs(output_dir, exist_ok=True)
 
-    draw = ImageDraw.Draw(img)
+    # Appel au modèle stable-diffusion
+    model = replicate.models.get("stability-ai/stable-diffusion")
+    version = model.versions.get("db21e45e...")  # ou model.versions.list()[0]
 
-    # Load a font
-    try:
-        font = ImageFont.truetype("arial.ttf", 60)
-    except:
-        font = ImageFont.load_default()
+    output_url = version.predict(prompt=prompt)[0]
 
-    text = f"For {name}"
-    text_width, text_height = draw.textsize(text, font=font)
-    draw.text(
-        ((width - text_width) / 2, height / 2 - text_height),
-        text,
-        fill=(120, 30, 50),
-        font=font
-    )
+    # Télécharger l’image
+    image_path = os.path.join(output_dir, f"{uuid.uuid4().hex}.png")
+    os.system(f"wget {output_url} -O {image_path}")
 
-    subtitle = "A Magical Mother's Day Book"
-    sub_width, sub_height = draw.textsize(subtitle, font=font)
-    draw.text(
-        ((width - sub_width) / 2, height / 2 + 50),
-        subtitle,
-        fill=(100, 20, 40),
-        font=font
-    )
-
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    img.save(output_path)
-    return output_path
-
-# Example usage:
-# generate_cover_image(name="Sophie", style="watercolor", output_path="output/cover.jpg")
-
+    return image_path
