@@ -5,3 +5,8 @@ Pillow
 langdetect
 deep-translator
 fpdf
+diffusers
+transformers
+torch
+accelerate
+safetensors
