@@ -1,60 +1,33 @@
 import streamlit as st
-from utils.i18n import get_texts
-from utils.letter_generator import generate_letter
-from utils.image_album import generate_album
-from utils.pdf_export import export_pdf
-from utils.audio_generator import generate_audio
+from utils import i18n, letter_generator, image_album, pdf_export, audio_generator
 
-# Détection de la langue du navigateur
-lang = st.query_params.get("lang") or st.session_state.get("lang", "fr")
-st.session_state["lang"] = lang
-texts = get_texts(lang)
+# Détecte la langue automatiquement
+lang = i18n.detect_language()
+_ = i18n.get_translator(lang)
 
-st.set_page_config(page_title=texts["app_title"], layout="centered")
+st.set_page_config(page_title=_("Maman Magique"), layout="centered")
 
-st.title(texts["app_title"])
-st.write(texts["app_subtitle"])
+st.image("assets/logo.png", width=200)
 
-menu = st.radio(
-    texts["menu_title"],
-    [texts["step_letter"], texts["step_photos"], texts["step_result"]],
-    key="menu",
-)
+st.title(_("Maman Magique"))
+st.write(_("Créez un souvenir magique pour votre maman."))
 
-if menu == texts["step_letter"]:
-    with st.form("letter_form"):
-        name = st.text_input(texts["form_name"])
-        traits = st.text_area(texts["form_traits"])
-        memory = st.text_area(texts["form_memory"])
-        submit = st.form_submit_button(texts["generate_letter"])
-        if submit:
-            letter = generate_letter(name, traits, memory, lang)
-            st.session_state["letter"] = letter
-            st.success(texts["letter_ready"])
-            st.text_area(texts["letter_preview"], value=letter, height=300)
+with st.form("memory_form"):
+    name = st.text_input(_("Prénom de la maman"))
+    sender = st.text_input(_("Votre prénom"))
+    memories = st.text_area(_("Décrivez quelques souvenirs ou moments marquants"))
+    photos = st.file_uploader(_("Ajoutez 5 à 10 photos"), accept_multiple_files=True, type=["jpg", "jpeg", "png"])
+    voice = st.selectbox(_("Choisissez la voix pour l’audio"), ["Enfant", "Adulte"])
+    submitted = st.form_submit_button(_("Générer"))
 
-elif menu == texts["step_photos"]:
-    photos = st.file_uploader(
-        texts["upload_photos"],
-        accept_multiple_files=True,
-        type=["jpg", "jpeg", "png"],
-    )
-    if photos:
-        album = generate_album(photos, lang)
-        st.session_state["album"] = album
-        st.success(texts["album_ready"])
-        for img in album:
-            st.image(img, use_column_width=True)
+if submitted:
+    with st.spinner(_("Génération du livre souvenir...")):
+        letter = letter_generator.generate_letter(name, sender, memories, lang)
+        album = image_album.generate_album(photos, lang)
+        cover = image_album.generate_cover(name, lang)
+        pdf_path = pdf_export.create_pdf(name, letter, album, cover, lang)
+        audio_path = audio_generator.create_audio(letter, voice, lang)
 
-elif menu == texts["step_result"]:
-    if "letter" in st.session_state and "album" in st.session_state:
-        st.subheader(texts["final_export"])
-        if st.button(texts["export_pdf"]):
-            pdf_file = export_pdf(st.session_state["letter"], st.session_state["album"], lang)
-            st.download_button(texts["download_pdf"], pdf_file, file_name="maman-magique.pdf")
-
-        if st.button(texts["generate_audio"]):
-            audio = generate_audio(st.session_state["letter"], lang)
-            st.audio(audio, format="audio/mp3")
-    else:
-        st.warning(texts["need_previous_steps"])
+    st.success(_("Livre généré avec succès !"))
+    st.download_button(_("Télécharger le livre (PDF)"), data=open(pdf_path, "rb"), file_name="Maman_Magique.pdf")
+    st.audio(audio_path)
