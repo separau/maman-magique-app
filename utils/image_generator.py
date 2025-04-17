@@ -15,7 +15,7 @@ def generate_image(prompt: str) -> str:
 
     # Appel au modèle stable-diffusion
     model = replicate.models.get("stability-ai/stable-diffusion")
-    version = model.versions.get("db21e45e...")  # ou model.versions.list()[0]
+    version = model.versions.get("db21e45e7b571e5aa3bcd0f375fb1a4cabfc23ecb167b612740202612c6210c0e")
 
     output_url = version.predict(prompt=prompt)[0]
 
