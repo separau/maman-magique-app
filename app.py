@@ -1,11 +1,12 @@
 import streamlit as st
 from utils import i18n, letter_generator, image_generator, pdf_exporter, audio_generator
 
+# ⚠️ set_page_config doit être le tout premier appel Streamlit
+st.set_page_config(page_title="Maman Magique", layout="centered")
+
 # Language selection
 lang = st.sidebar.selectbox("🌐 Language / Langue", ["English", "Français"])
 _ = i18n.get_translator(lang)
-
-st.set_page_config(page_title="Maman Magique", layout="centered")
 
 st.title(_("Maman Magique"))
 
