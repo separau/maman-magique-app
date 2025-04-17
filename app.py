@@ -1,33 +1,59 @@
 import streamlit as st
-from utils import i18n, letter_generator, image_album, pdf_export, audio_generator
+from utils import i18n, letter_generator, image_generator, pdf_exporter, audio_generator
 
-# Détecte la langue automatiquement
-lang = i18n.detect_language()
+# Set page config
+st.set_page_config(
+    page_title="Maman Magique",
+    page_icon="🌸",
+    layout="centered"
+)
+
+# Language selector
+lang = st.sidebar.selectbox("Language / Langue", ["Français", "English"])
 _ = i18n.get_translator(lang)
 
-st.set_page_config(page_title=_("Maman Magique"), layout="centered")
+st.title("🌸 " + _("Maman Magique"))
+st.markdown(_("Offrez à votre maman un souvenir magique généré par l'IA !"))
 
-st.image("assets/logo.png", width=200)
+# Step 1: Personalized letter
+st.header(_("1. Lettre personnalisée"))
+name = st.text_input(_("Votre prénom"))
+qualities = st.text_area(_("Décrivez votre maman en quelques mots (qualités, souvenirs, etc.)"))
+if st.button(_("Générer la lettre")) and name and qualities:
+    letter = letter_generator.generate_letter(name, qualities, lang)
+    st.session_state["letter"] = letter
+    st.success(_("Lettre générée !"))
+    st.text_area(_("Aperçu de la lettre"), letter, height=300)
 
-st.title(_("Maman Magique"))
-st.write(_("Créez un souvenir magique pour votre maman."))
+# Step 2: Album photo
+st.header(_("2. Mini-album photo magique"))
+uploaded_photos = st.file_uploader(_("Téléversez quelques photos de votre maman"), accept_multiple_files=True, type=["jpg", "jpeg", "png"])
+if uploaded_photos:
+    styled_images = image_generator.generate_album(uploaded_photos, lang)
+    st.session_state["styled_images"] = styled_images
+    st.success(_("Photos stylisées prêtes !"))
+    for img in styled_images:
+        st.image(img, use_column_width=True)
 
-with st.form("memory_form"):
-    name = st.text_input(_("Prénom de la maman"))
-    sender = st.text_input(_("Votre prénom"))
-    memories = st.text_area(_("Décrivez quelques souvenirs ou moments marquants"))
-    photos = st.file_uploader(_("Ajoutez 5 à 10 photos"), accept_multiple_files=True, type=["jpg", "jpeg", "png"])
-    voice = st.selectbox(_("Choisissez la voix pour l’audio"), ["Enfant", "Adulte"])
-    submitted = st.form_submit_button(_("Générer"))
-
-if submitted:
-    with st.spinner(_("Génération du livre souvenir...")):
-        letter = letter_generator.generate_letter(name, sender, memories, lang)
-        album = image_album.generate_album(photos, lang)
-        cover = image_album.generate_cover(name, lang)
-        pdf_path = pdf_export.create_pdf(name, letter, album, cover, lang)
-        audio_path = audio_generator.create_audio(letter, voice, lang)
-
-    st.success(_("Livre généré avec succès !"))
-    st.download_button(_("Télécharger le livre (PDF)"), data=open(pdf_path, "rb"), file_name="Maman_Magique.pdf")
+# Step 3: Voix magique (IA)
+st.header(_("3. Voix magique"))
+if "letter" in st.session_state and st.button(_("Générer la voix de la lettre")):
+    audio_path = audio_generator.text_to_audio(st.session_state["letter"], lang)
     st.audio(audio_path)
+    st.success(_("Voix générée !"))
+
+# Step 4: Export final
+st.header(_("4. Exporter le livre souvenir"))
+if st.button(_("Créer le PDF magique")):
+    pdf_bytes = pdf_exporter.generate_pdf(
+        name=name,
+        letter=st.session_state.get("letter", ""),
+        images=st.session_state.get("styled_images", []),
+        lang=lang
+    )
+    st.download_button(
+        label=_("Télécharger le livre souvenir"),
+        data=pdf_bytes,
+        file_name="maman_magique.pdf",
+        mime="application/pdf"
+    )
