@@ -4,3 +4,4 @@ reportlab
 Pillow
 langdetect
 deep-translator
+fpdf
