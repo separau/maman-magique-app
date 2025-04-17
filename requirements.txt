@@ -1,4 +1,6 @@
 streamlit
-fpdf
-gtts
+gTTS
+reportlab
 Pillow
+langdetect
+deep-translator
